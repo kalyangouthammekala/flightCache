@@ -2,11 +2,13 @@ package server
 
 import (
 	"awesomeProject1/models"
+	"awesomeProject1/ruleEngine"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 func StartServer() {
@@ -19,10 +21,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, %s!", r.URL.Path[1:])
 }
 
-type test_struct struct {
-	Test string
-}
-
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -33,5 +31,41 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(tfmQuery.Destination)
+
+	searchRequest := translateRequest(&tfmQuery)
+	searchResponse := ruleEngine.Execute(searchRequest)
+	fmt.Println(tfmQuery.Destination, " ", searchResponse.FromCache)
+}
+
+func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
+	return &models.SearchRequest{
+		Cached:               false,
+		AirlineCode:          "KL", //TODO limited to AF for the poc
+		DepartureAirportCode: query.Origin,
+		ArrivalAirportCode:   query.Destination,
+		DepartureDateTime:    convertDate(query.DepDate),
+		ArrivalDateTime:      time.Time{},
+		RoundTrip:            isRoundtripJourney(query.JourneyType),
+		BookingTime:          time.Now(), //TODO need to check and get it from the request
+	}
+}
+
+func convertDate(date string) time.Time {
+	layout := "2006-01-02"
+	t, err := time.Parse(layout, date)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return t
+}
+
+func isRoundtripJourney(journey string) bool {
+	isRoundtripJourney := false
+	if journey != "ONEWAY" {
+		isRoundtripJourney = true
+	}
+
+	return isRoundtripJourney
 }
