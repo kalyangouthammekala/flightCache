@@ -1,22 +1,42 @@
 package main
 
 import (
-	"awesomeProject1/models"
-	"awesomeProject1/ruleEngine"
+	"awesomeProject1/server"
 	"fmt"
-	"time"
 )
 
 func main() {
-	fmt.Println("Back to golang")
-	searchRequest := &models.SearchRequest{
+	fmt.Println("Flight Cache app !!")
+	/*searchRequest := &models.SearchRequest{
 		AirlineCode:          "KL",
 		DepartureAirportCode: "AMS",
 		ArrivalAirportCode:   "NYC",
+		DepartureDateTime: time.Date(
+			2021,
+			8,
+			22,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
+		ArrivalDateTime: time.Date(
+			2021,
+			8,
+			24,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
 		RoundTrip:            true,
 		BookingTime:          time.Now(),
 	}
 
 	ruleEngineResponse := ruleEngine.Execute(searchRequest)
-	fmt.Println("Result ", ruleEngineResponse.FromCache)
+	fmt.Println("Result ", ruleEngineResponse.FromCache)*/
+
+	server.StartServer()
 }

@@ -1,0 +1,7 @@
+/go.mod
+/.idea/.gitignore
+/.idea/.name
+/.idea/flightCache.iml
+/go.sum
+/.idea/modules.xml
+/.idea/vcs.xml

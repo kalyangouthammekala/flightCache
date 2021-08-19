@@ -13,7 +13,7 @@ import (
 
 func Execute(searchRequest *models.SearchRequest) *models.SearchResponse {
 	dataContext := ast.NewDataContext()
-	err := dataContext.Add("FltSearchResult", searchRequest)
+	err := dataContext.Add("FltSearchRequest", searchRequest)
 	if err != nil {
 		fmt.Println("Error while loading search request (fact): ", err)
 	}
