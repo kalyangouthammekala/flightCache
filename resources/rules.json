@@ -1,0 +1,22 @@
+ [
+    {
+    "name": "FltCacheCheck",
+    "desc": "when airline is KLM and flt departure is within 3 to 7 days of booking",
+    "salience": 10,
+    "when": "Pogo.AirlineCode == \"KL\" && FltSearchResult.DepartureTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchResult.DepartureTime < Pogo.AddDays(Pogo.BookingTime, 7) && Pogo.Result == false",
+    "then": [
+      "Pogo.Result = true",
+      "Log(\"Result could be cached\")"
+    ]
+  },
+    {
+      "name": "FltCacheCheck1",
+      "desc": "when airline is KLM",
+      "salience": 10,
+      "when": "Pogo.AirlineCode == \"KL\" && Pogo.Result == false",
+      "then": [
+        "Pogo.Result = true",
+        "Log(\"Result could be cached\")"
+      ]
+    }
+  ]
