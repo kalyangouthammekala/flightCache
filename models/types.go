@@ -45,3 +45,8 @@ type TfmSearchQuery struct {
 	TrackingEnabled bool   `json:"trackingEnabled"`
 	UsePolling      bool   `json:"usePolling"`
 }
+
+type CacheEntry struct {
+	Key   string
+	Value string
+}
