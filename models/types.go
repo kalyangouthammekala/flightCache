@@ -50,3 +50,8 @@ type CacheEntry struct {
 	Key   string
 	Value string
 }
+
+type KnowledgeBaseForCacheRule struct {
+	Name    string
+	Version string
+}

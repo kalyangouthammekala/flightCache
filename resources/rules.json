@@ -6,17 +6,8 @@
     "when": "Pogo.AirlineCode == \"KL\" && FltSearchRequest.DepartureDateTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchRequest.DepartureDateTime < Pogo.AddDays(Pogo.BookingTime, 7) && Pogo.FromCache == false",
     "then": [
       "Pogo.FromCache = true",
+      "Retract(\"FltCacheCheck\")",
       "Log(\"Result available in cache\")"
     ]
-  },
-    {
-      "name": "FltCacheCheck1",
-      "desc": "when airline is KLM",
-      "salience": 1,
-      "when": "Pogo.AirlineCode == \"KL\" && Pogo.FromCache == false",
-      "then": [
-        "Pogo.FromCache = true",
-        "Log(\"Result available in cache\")"
-      ]
-    }
-  ]
+  }
+ ]

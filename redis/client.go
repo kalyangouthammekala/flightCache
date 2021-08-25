@@ -6,6 +6,11 @@ import (
 	"github.com/go-redis/redis"
 )
 
+type redisClient interface {
+	Query(key string) *models.CacheEntry
+	AddEntry(key, value string)
+}
+
 func getRedisClient() *redis.Client {
 	return redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
