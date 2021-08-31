@@ -1,0 +1,1275 @@
+{
+  "query": {
+    "adult": 1,
+    "apiCall": "searchFlight",
+    "baggageType": "ALL",
+    "channel": "WEB",
+    "child": 0,
+    "contextToken": ":8e6b4429-6034-4c67-861f-785f8f7e51af:partition-ae871040-f5cd-11eb-9d60-2b25a46786da",
+    "correlationId": "ae871042-f5cd-11eb-9d60-2b25a46786da",
+    "currency": "EUR",
+    "depDate": "2021-10-21",
+    "destination": " ",
+    "existingPools": 6,
+    "infant": 0,
+    "journeyType": "ONEWAY",
+    "origin": "AMS",
+    "poolRequestNr": 4,
+    "product": "TFM",
+    "requestId": "77d7580f-9c81-4213-b76c-1921f9362c00",
+    "sessionId": "ae871040-f5cd-11eb-9d60-2b25a46786da",
+    "source": "KL",
+    "trackingEnabled": false,
+    "usePolling": true
+  },
+  "routes": {
+    "PJ1": {
+      "id": "PJ1",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 480,
+      "segmentIDs": [
+        "SEG1"
+      ]
+    },
+    "PJ10": {
+      "id": "PJ10",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 695,
+      "segmentIDs": [
+        "SEG12",
+        "SEG13"
+      ]
+    },
+    "PJ11": {
+      "id": "PJ11",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 710,
+      "segmentIDs": [
+        "SEG14",
+        "SEG15"
+      ]
+    },
+    "PJ12": {
+      "id": "PJ12",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 710,
+      "segmentIDs": [
+        "SEG16",
+        "SEG17"
+      ]
+    },
+    "PJ13": {
+      "id": "PJ13",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 660,
+      "segmentIDs": [
+        "SEG18",
+        "SEG19"
+      ]
+    },
+    "PJ14": {
+      "id": "PJ14",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 695,
+      "segmentIDs": [
+        "SEG20",
+        "SEG21"
+      ]
+    },
+    "PJ15": {
+      "id": "PJ15",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 715,
+      "segmentIDs": [
+        "SEG22",
+        "SEG23"
+      ]
+    },
+    "PJ16": {
+      "id": "PJ16",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 715,
+      "segmentIDs": [
+        "SEG22",
+        "SEG24"
+      ]
+    },
+    "PJ17": {
+      "id": "PJ17",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 665,
+      "segmentIDs": [
+        "SEG25",
+        "SEG26"
+      ]
+    },
+    "PJ2": {
+      "id": "PJ2",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 480,
+      "segmentIDs": [
+        "SEG2"
+      ]
+    },
+    "PJ3": {
+      "id": "PJ3",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 484,
+      "segmentIDs": [
+        "SEG3"
+      ]
+    },
+    "PJ4": {
+      "id": "PJ4",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 484,
+      "segmentIDs": [
+        "SEG4"
+      ]
+    },
+    "PJ5": {
+      "id": "PJ5",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 484,
+      "segmentIDs": [
+        "SEG5"
+      ]
+    },
+    "PJ6": {
+      "id": "PJ6",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 485,
+      "segmentIDs": [
+        "SEG6"
+      ]
+    },
+    "PJ7": {
+      "id": "PJ7",
+      "stops": 0,
+      "elapsedFlyingTimeMinutes": 501,
+      "segmentIDs": [
+        "SEG7"
+      ]
+    },
+    "PJ8": {
+      "id": "PJ8",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 694,
+      "segmentIDs": [
+        "SEG8",
+        "SEG9"
+      ]
+    },
+    "PJ9": {
+      "id": "PJ9",
+      "stops": 1,
+      "elapsedFlyingTimeMinutes": 680,
+      "segmentIDs": [
+        "SEG10",
+        "SEG11"
+      ]
+    }
+  },
+  "segments": {
+    "SEG1": {
+      "id": "SEG1",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T13:25:00",
+      "arrivalTime": "2021-10-21T15:25:00",
+      "flightNumber": "0154",
+      "airplaneType": "781",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG10": {
+      "id": "SEG10",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "CDG",
+      "destinationTerminal": "2F",
+      "departureTime": "2021-10-21T16:30:00",
+      "arrivalTime": "2021-10-21T17:45:00",
+      "flightNumber": "1243",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG11": {
+      "id": "SEG11",
+      "origin": "CDG",
+      "originTerminal": "2E",
+      "destination": "JFK",
+      "destinationTerminal": "1",
+      "departureTime": "2021-10-21T19:20:00",
+      "arrivalTime": "2021-10-21T21:50:00",
+      "flightNumber": "2307",
+      "airplaneType": "772",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "AF"
+    },
+    "SEG12": {
+      "id": "SEG12",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "CDG",
+      "destinationTerminal": "2F",
+      "departureTime": "2021-10-21T07:15:00",
+      "arrivalTime": "2021-10-21T08:40:00",
+      "flightNumber": "1227",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG13": {
+      "id": "SEG13",
+      "origin": "CDG",
+      "originTerminal": "2E",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T10:20:00",
+      "arrivalTime": "2021-10-21T12:50:00",
+      "flightNumber": "6184",
+      "airplaneType": "333",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "DL"
+    },
+    "SEG14": {
+      "id": "SEG14",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "CDG",
+      "destinationTerminal": "2F",
+      "departureTime": "2021-10-21T08:00:00",
+      "arrivalTime": "2021-10-21T09:25:00",
+      "flightNumber": "1229",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG15": {
+      "id": "SEG15",
+      "origin": "CDG",
+      "originTerminal": "2E",
+      "destination": "JFK",
+      "destinationTerminal": "1",
+      "departureTime": "2021-10-21T11:20:00",
+      "arrivalTime": "2021-10-21T13:50:00",
+      "flightNumber": "2425",
+      "airplaneType": "77W",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "AF"
+    },
+    "SEG16": {
+      "id": "SEG16",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "CDG",
+      "destinationTerminal": "2F",
+      "departureTime": "2021-10-21T12:25:00",
+      "arrivalTime": "2021-10-21T13:40:00",
+      "flightNumber": "1233",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG17": {
+      "id": "SEG17",
+      "origin": "CDG",
+      "originTerminal": "2E",
+      "destination": "JFK",
+      "destinationTerminal": "1",
+      "departureTime": "2021-10-21T15:45:00",
+      "arrivalTime": "2021-10-21T18:15:00",
+      "flightNumber": "2304",
+      "airplaneType": "77W",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "AF"
+    },
+    "SEG18": {
+      "id": "SEG18",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "LHR",
+      "destinationTerminal": "2",
+      "departureTime": "2021-10-21T08:40:00",
+      "arrivalTime": "2021-10-21T09:00:00",
+      "flightNumber": "1007",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG19": {
+      "id": "SEG19",
+      "origin": "LHR",
+      "originTerminal": "3",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T11:00:00",
+      "arrivalTime": "2021-10-21T13:40:00",
+      "flightNumber": "4820",
+      "airplaneType": "351",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "VS"
+    },
+    "SEG2": {
+      "id": "SEG2",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T13:25:00",
+      "arrivalTime": "2021-10-21T15:25:00",
+      "flightNumber": "0071",
+      "airplaneType": "789",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG20": {
+      "id": "SEG20",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "LHR",
+      "destinationTerminal": "2",
+      "departureTime": "2021-10-21T15:55:00",
+      "arrivalTime": "2021-10-21T16:15:00",
+      "flightNumber": "1021",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG21": {
+      "id": "SEG21",
+      "origin": "LHR",
+      "originTerminal": "3",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T18:50:00",
+      "arrivalTime": "2021-10-21T21:30:00",
+      "flightNumber": "4824",
+      "airplaneType": "351",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "VS"
+    },
+    "SEG22": {
+      "id": "SEG22",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "LHR",
+      "destinationTerminal": "2",
+      "departureTime": "2021-10-21T10:15:00",
+      "arrivalTime": "2021-10-21T10:45:00",
+      "flightNumber": "1009",
+      "airplaneType": "73H",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG23": {
+      "id": "SEG23",
+      "origin": "LHR",
+      "originTerminal": "3",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T13:30:00",
+      "arrivalTime": "2021-10-21T16:10:00",
+      "flightNumber": "2502",
+      "airplaneType": "789",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "VS"
+    },
+    "SEG24": {
+      "id": "SEG24",
+      "origin": "LHR",
+      "originTerminal": "3",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T13:30:00",
+      "arrivalTime": "2021-10-21T16:10:00",
+      "flightNumber": "2503",
+      "airplaneType": "789",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "VS"
+    },
+    "SEG25": {
+      "id": "SEG25",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "FRA",
+      "destinationTerminal": "2",
+      "departureTime": "2021-10-21T08:25:00",
+      "arrivalTime": "2021-10-21T09:35:00",
+      "flightNumber": "1763",
+      "airplaneType": "E75",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "WA"
+    },
+    "SEG26": {
+      "id": "SEG26",
+      "origin": "FRA",
+      "originTerminal": "2",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T10:45:00",
+      "arrivalTime": "2021-10-21T13:30:00",
+      "flightNumber": "6107",
+      "airplaneType": "764",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "DL"
+    },
+    "SEG3": {
+      "id": "SEG3",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T17:55:00",
+      "arrivalTime": "2021-10-21T19:59:00",
+      "flightNumber": "0063",
+      "airplaneType": "772",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG4": {
+      "id": "SEG4",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T17:55:00",
+      "arrivalTime": "2021-10-21T19:59:00",
+      "flightNumber": "0643",
+      "airplaneType": "789",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG5": {
+      "id": "SEG5",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T17:55:00",
+      "arrivalTime": "2021-10-21T19:59:00",
+      "flightNumber": "0075",
+      "airplaneType": "781",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG6": {
+      "id": "SEG6",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T13:20:00",
+      "arrivalTime": "2021-10-21T15:25:00",
+      "flightNumber": "0641",
+      "airplaneType": "332",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG7": {
+      "id": "SEG7",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T10:35:00",
+      "arrivalTime": "2021-10-21T12:56:00",
+      "flightNumber": "6020",
+      "airplaneType": "339",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "DL"
+    },
+    "SEG8": {
+      "id": "SEG8",
+      "origin": "AMS",
+      "originTerminal": "",
+      "destination": "BOS",
+      "destinationTerminal": "",
+      "departureTime": "2021-10-21T10:20:00",
+      "arrivalTime": "2021-10-21T12:10:00",
+      "flightNumber": "0073",
+      "airplaneType": "781",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "KL"
+    },
+    "SEG9": {
+      "id": "SEG9",
+      "origin": "BOS",
+      "originTerminal": "A",
+      "destination": "JFK",
+      "destinationTerminal": "4",
+      "departureTime": "2021-10-21T14:25:00",
+      "arrivalTime": "2021-10-21T15:54:00",
+      "flightNumber": "5103",
+      "airplaneType": "E75",
+      "marketingCarrier": "KL",
+      "operatingCarrier": "YX"
+    }
+  },
+  "combinations": [
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG1",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ1"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "c859097b-3836-44ea-9909-7b383634eab3": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0001",
+        "offerItemIds": "c859097b-3836-44ea-9909-7b383634eab3",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG2",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ2"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "c587aa2b-2b02-4162-87aa-2b2b02f162cb": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0002",
+        "offerItemIds": "c587aa2b-2b02-4162-87aa-2b2b02f162cb",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG3",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ3"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "a464aa9c-0c60-4c86-a4aa-9c0c603c86e4": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0003",
+        "offerItemIds": "a464aa9c-0c60-4c86-a4aa-9c0c603c86e4",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG4",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ4"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "ed7cd1d8-c7ff-4c3d-bcd1-d8c7fffc3d2b": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0004",
+        "offerItemIds": "ed7cd1d8-c7ff-4c3d-bcd1-d8c7fffc3d2b",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG5",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ5"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "d24b09eb-8b01-4fd5-8b09-eb8b01cfd5a0": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0005",
+        "offerItemIds": "d24b09eb-8b01-4fd5-8b09-eb8b01cfd5a0",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG6",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ6"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "ced59873-026f-4425-9598-73026fb4254b": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0006",
+        "offerItemIds": "ced59873-026f-4425-9598-73026fb4254b",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1983.42,
+      "totalTaxAmount": 187.42,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1983.42,
+          "taxAmount": 187.42,
+          "fareProducts": [
+            {
+              "segmentID": "SEG7",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ7"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "b6afe7ba-03c3-428d-afe7-ba03c3a28d37": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0007",
+        "offerItemIds": "b6afe7ba-03c3-428d-afe7-ba03c3a28d37",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1988.14,
+      "totalTaxAmount": 192.14,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1988.14,
+          "taxAmount": 192.14,
+          "fareProducts": [
+            {
+              "segmentID": "SEG8",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG9",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ8"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "c986bd0d-2732-4b76-86bd-0d2732ab7687": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0008",
+        "offerItemIds": "c986bd0d-2732-4b76-86bd-0d2732ab7687",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1988.95,
+      "totalTaxAmount": 192.95,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1988.95,
+          "taxAmount": 192.95,
+          "fareProducts": [
+            {
+              "segmentID": "SEG10",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG11",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ9"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "d6cef17b-6804-40b6-8ef1-7b6804c0b61f": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0009",
+        "offerItemIds": "d6cef17b-6804-40b6-8ef1-7b6804c0b61f",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1988.95,
+      "totalTaxAmount": 192.95,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1988.95,
+          "taxAmount": 192.95,
+          "fareProducts": [
+            {
+              "segmentID": "SEG12",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG13",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ10"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "ce31d6bb-ac49-4a8f-b1d6-bbac498a8f69": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000a",
+        "offerItemIds": "ce31d6bb-ac49-4a8f-b1d6-bbac498a8f69",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1988.95,
+      "totalTaxAmount": 192.95,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1988.95,
+          "taxAmount": 192.95,
+          "fareProducts": [
+            {
+              "segmentID": "SEG14",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG15",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ11"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "c6000399-8eb4-4f3e-8003-998eb40f3e34": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000b",
+        "offerItemIds": "c6000399-8eb4-4f3e-8003-998eb40f3e34",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 1988.95,
+      "totalTaxAmount": 192.95,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 1988.95,
+          "taxAmount": 192.95,
+          "fareProducts": [
+            {
+              "segmentID": "SEG16",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG17",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ12"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "e54f27ca-b5e2-4bf7-8f27-cab5e20bf713": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000c",
+        "offerItemIds": "e54f27ca-b5e2-4bf7-8f27-cab5e20bf713",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 2009.56,
+      "totalTaxAmount": 213.56,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 2009.56,
+          "taxAmount": 213.56,
+          "fareProducts": [
+            {
+              "segmentID": "SEG18",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG19",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ13"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "a1f1bb8b-806c-417a-b1bb-8b806ca17ab2": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000d",
+        "offerItemIds": "a1f1bb8b-806c-417a-b1bb-8b806ca17ab2",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 2009.56,
+      "totalTaxAmount": 213.56,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 2009.56,
+          "taxAmount": 213.56,
+          "fareProducts": [
+            {
+              "segmentID": "SEG20",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG21",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ14"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "e1ed8d19-db42-4ce3-ad8d-19db42fce38b": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000e",
+        "offerItemIds": "e1ed8d19-db42-4ce3-ad8d-19db42fce38b",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 2009.56,
+      "totalTaxAmount": 213.56,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 2009.56,
+          "taxAmount": 213.56,
+          "fareProducts": [
+            {
+              "segmentID": "SEG22",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG23",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ15"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "d9e3aba6-2e91-48c0-a3ab-a62e9128c01b": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d000f",
+        "offerItemIds": "d9e3aba6-2e91-48c0-a3ab-a62e9128c01b",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 2009.56,
+      "totalTaxAmount": 213.56,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 2009.56,
+          "taxAmount": 213.56,
+          "fareProducts": [
+            {
+              "segmentID": "SEG22",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG24",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ16"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "e6815576-f5d4-479b-8155-76f5d4c79b28": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0010",
+        "offerItemIds": "e6815576-f5d4-479b-8155-76f5d4c79b28",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    },
+    {
+      "totalFareAmount": 2015.2,
+      "totalTaxAmount": 219.2,
+      "fares": [
+        {
+          "paxId": "adt1",
+          "paxType": "ADT",
+          "fareAmount": 2015.2,
+          "taxAmount": 219.2,
+          "fareProducts": [
+            {
+              "segmentID": "SEG25",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            },
+            {
+              "segmentID": "SEG26",
+              "cabinProduct": "ECONOMY",
+              "fareBase": "BS00BENB",
+              "ancillaryIDs": [
+                "BA1_BAGGAGE",
+                "HAND"
+              ]
+            }
+          ],
+          "vcc": "KL",
+          "additionalParams": {
+            "ndc.paxId": "PAX1",
+            "ndc.paxType": "ADT"
+          }
+        }
+      ],
+      "routeIDs": [
+        "PJ17"
+      ],
+      "tariffType": "PU",
+      "additionalParams": {
+        "b85c97d2-10c6-401f-9c97-d210c6601f66": "PAX1",
+        "offerId": "c6620ec8-6af0-4def-a20e-c86af03d0011",
+        "offerItemIds": "b85c97d2-10c6-401f-9c97-d210c6601f66",
+        "offerValidity": "2021-08-05T09:45:35.619Z"
+      }
+    }
+  ],
+  "ancillaries": [
+    {
+      "id": "BA1_BAGGAGE",
+      "type": "BAGGAGE",
+      "additionalParams": {
+        "pieces": "1",
+        "type": "NORMAL"
+      }
+    },
+    {
+      "id": "HAND",
+      "type": "BAGGAGE",
+      "additionalParams": {
+        "pieces": "1",
+        "type": "HAND"
+      }
+    }
+  ],
+  "additionalParams": {
+    "correlationId": "NDC-TFM-SONATA20210805091532118099"
+  },
+  "responseTimes": {
+    "afklmSearch.AirShoppingRQ": 3474
+  }
+}

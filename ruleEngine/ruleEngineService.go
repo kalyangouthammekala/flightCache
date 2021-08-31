@@ -14,7 +14,7 @@ import (
 func LoadRules(name, version string) *ast.KnowledgeBase {
 	lib := ast.NewKnowledgeLibrary()
 	ruleBuilder := builder.NewRuleBuilder(lib)
-	rulesFile, err := filepath.Abs("../awesomeProject1/resources/rules.json")
+	rulesFile, err := filepath.Abs("../resources/rules.json")
 	fmt.Println(rulesFile)
 
 	jsonData, err := ioutil.ReadFile(rulesFile)

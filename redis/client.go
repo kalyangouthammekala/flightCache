@@ -45,3 +45,15 @@ func AddEntry(key, value string) {
 		fmt.Println(err)
 	}
 }
+
+func RemoveAllEntries() {
+	client := getRedisClient()
+	fmt.Println("***** Removing all entries in the cache ********")
+	client.FlushAll()
+}
+
+func RemoveEntry(key string) {
+	client := getRedisClient()
+	fmt.Println("***** Removing entry for ", key, " in the cache ********")
+	client.Del(key)
+}
