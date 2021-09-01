@@ -14,7 +14,8 @@ import (
 func LoadRules(name, version string) *ast.KnowledgeBase {
 	lib := ast.NewKnowledgeLibrary()
 	ruleBuilder := builder.NewRuleBuilder(lib)
-	rulesFile, err := filepath.Abs("../resources/rules.json")
+	rulesFile, err := filepath.Abs("../resources/rules.json") //TODO change when tested from controller
+	//TODO need to solve by having a uniform access from test file as well as controller
 	fmt.Println(rulesFile)
 
 	jsonData, err := ioutil.ReadFile(rulesFile)

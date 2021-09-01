@@ -4,6 +4,7 @@ import (
 	"awesomeProject1/mocks"
 	"awesomeProject1/models"
 	"awesomeProject1/redis"
+	"awesomeProject1/searchService"
 	"awesomeProject1/service"
 	"fmt"
 	"github.com/golang/mock/gomock"
@@ -14,10 +15,12 @@ import (
 	"time"
 )
 
-func getMockSearchService(t *testing.T) *mocks.MockSearchService {
-	ctrl := gomock.NewController(t)
+var ctrl *gomock.Controller
 
-	defer ctrl.Finish()
+func getMockSearchService(t *testing.T, request *models.SearchRequest, addCacheEntry bool) *mocks.MockSearchService {
+	ctrl = gomock.NewController(t)
+
+	//defer ctrl.Finish()
 	mockSearchService := mocks.NewMockSearchService(ctrl)
 	sampleSearchResultFile, err := filepath.Abs("../resources/sampleSearchResult.json")
 	if err != nil {
@@ -31,44 +34,49 @@ func getMockSearchService(t *testing.T) *mocks.MockSearchService {
 	}
 	mockSearchService.EXPECT().Search(gomock.Any()).Return(string(sampleSearchResultJson))
 
+	if addCacheEntry {
+		redis.AddEntry(models.DeriveCacheKeyFromRequest(request), string(sampleSearchResultJson))
+	}
+
 	return mockSearchService
 }
 
-func TestFlightCacheService_Search(t *testing.T) {
-
-	mockSearchService := getMockSearchService(t)
+func TestSearchWithEmptyCache(t *testing.T) {
+	request := &models.SearchRequest{
+		AirlineCode:          "KL",
+		DepartureAirportCode: "AMS",
+		ArrivalAirportCode:   "NYC",
+		DepartureDateTime: time.Date(
+			2021,
+			9,
+			04,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
+		ArrivalDateTime: time.Date(
+			2021,
+			9,
+			05,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
+		RoundTrip:   true,
+		BookingTime: time.Now(),
+	}
+	mockSearchService := getMockSearchService(t, request, false)
+	defer ctrl.Finish()
 	//remove all entries in cache
 	redis.RemoveAllEntries()
 
 	//cache service
 	flightCacheService := &service.FlightCacheService{
-		Request: &models.SearchRequest{
-			AirlineCode:          "KL",
-			DepartureAirportCode: "AMS",
-			ArrivalAirportCode:   "NYC",
-			DepartureDateTime: time.Date(
-				2021,
-				9,
-				04,
-				12,
-				35,
-				0,
-				0,
-				time.UTC,
-			),
-			ArrivalDateTime: time.Date(
-				2021,
-				9,
-				05,
-				12,
-				35,
-				0,
-				0,
-				time.UTC,
-			),
-			RoundTrip:   true,
-			BookingTime: time.Now(),
-		},
+		Request:       request,
 		Response:      &models.SearchResponse{},
 		SearchService: mockSearchService,
 	}
@@ -80,4 +88,53 @@ func TestFlightCacheService_Search(t *testing.T) {
 	response := flightCacheService.Search(kbDetails)
 
 	assert.Equal(t, false, response.FromCache, "Cache should not contain it!!")
+}
+
+func TestSearchWithCacheEntry(t *testing.T) {
+	request := &models.SearchRequest{
+		AirlineCode:          "KL",
+		DepartureAirportCode: "AMS",
+		ArrivalAirportCode:   "NYC",
+		DepartureDateTime: time.Date(
+			2021,
+			9,
+			04,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
+		ArrivalDateTime: time.Date(
+			2021,
+			9,
+			05,
+			12,
+			35,
+			0,
+			0,
+			time.UTC,
+		),
+		RoundTrip:   true,
+		BookingTime: time.Now(),
+	}
+
+	//cache service
+	searchService := &searchService.DummySearchServiceImpl{}
+	flightCacheService := &service.FlightCacheService{
+		Request:       request,
+		Response:      &models.SearchResponse{},
+		SearchService: searchService,
+	}
+
+	kbDetails := &models.KnowledgeBaseForCacheRule{
+		Name:    "Test",
+		Version: "0.0.1",
+	}
+	//add cache entry
+	redis.AddEntry(models.DeriveCacheKeyFromRequest(request), searchService.Search(request))
+	defer ctrl.Finish()
+	response := flightCacheService.Search(kbDetails)
+
+	assert.Equal(t, true, response.FromCache, "Cache should contain it!!")
 }

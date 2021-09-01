@@ -42,7 +42,7 @@ func (f FlightCacheService) Search(knowledgeBaseDetails *models.KnowledgeBaseFor
 		knowledgeBaseDetails.Name, knowledgeBaseDetails.Version)
 	if response.FromCache {
 		//process the request by querying the cache
-		cacheEntryKey := deriveCacheKeyFromRequest(f.Request)
+		cacheEntryKey := models.DeriveCacheKeyFromRequest(f.Request)
 		cacheEntry := redis.Query(cacheEntryKey)
 		fmt.Println("Cache entry retrieved: ", cacheEntry.Value)
 		if cacheEntry.Value == "" {
@@ -85,22 +85,4 @@ func (f FlightCacheService) requestSearchService(response *models.SearchResponse
 	result := f.SearchService.Search(f.Request)
 	loadResponseWithResult(result, cacheEntryKey, response, addToCache)
 	return response
-}
-
-func deriveCacheKeyFromRequest(request *models.SearchRequest) string {
-	key := ""
-	journeyType := ""
-	//JFKHAJ-R-20122021-26122021
-	if request.RoundTrip {
-		journeyType = "R"
-	} else {
-		journeyType = "O"
-	}
-	key = request.DepartureAirportCode + request.ArrivalAirportCode + "-" + journeyType + "" +
-		"-" + models.TransformDate(request.DepartureDateTime) + "-" +
-		models.TransformDate(request.ArrivalDateTime)
-
-	fmt.Println("Key for Cache ", key)
-
-	return key
 }

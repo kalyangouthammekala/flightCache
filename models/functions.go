@@ -16,3 +16,21 @@ func TransformDate(date time.Time) string {
 	fmt.Println("date ", dateForKey)
 	return dateForKey
 }
+
+func DeriveCacheKeyFromRequest(request *SearchRequest) string {
+	key := ""
+	journeyType := ""
+	//JFKHAJ-R-20122021-26122021
+	if request.RoundTrip {
+		journeyType = "R"
+	} else {
+		journeyType = "O"
+	}
+	key = request.DepartureAirportCode + request.ArrivalAirportCode + "-" + journeyType + "" +
+		"-" + TransformDate(request.DepartureDateTime) + "-" +
+		TransformDate(request.ArrivalDateTime)
+
+	fmt.Println("Key for Cache ", key)
+
+	return key
+}

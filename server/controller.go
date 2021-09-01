@@ -33,7 +33,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	searchRequest := translateRequest(&tfmQuery)
-	searchResponse := ruleEngine.Execute(searchRequest)
+	searchResponse := ruleEngine.Execute(searchRequest, nil, "", "")
 	fmt.Println(tfmQuery.Destination, " ", searchResponse.FromCache)
 }
 
@@ -45,7 +45,7 @@ func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
 		ArrivalAirportCode:   query.Destination,
 		DepartureDateTime:    convertDate(query.DepDate),
 		ArrivalDateTime:      time.Time{},
-		RoundTrip:            isRoundtripJourney(query.JourneyType),
+		RoundTrip:            isRoundTripJourney(query.JourneyType),
 		BookingTime:          time.Now(), //TODO need to check and get it from the request
 	}
 }
@@ -61,11 +61,11 @@ func convertDate(date string) time.Time {
 	return t
 }
 
-func isRoundtripJourney(journey string) bool {
-	isRoundtripJourney := false
+func isRoundTripJourney(journey string) bool {
+	isRoundTripJourney := false
 	if journey != "ONEWAY" {
-		isRoundtripJourney = true
+		isRoundTripJourney = true
 	}
 
-	return isRoundtripJourney
+	return isRoundTripJourney
 }
