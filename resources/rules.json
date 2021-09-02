@@ -6,7 +6,6 @@
     "when": "Pogo.AirlineCode == \"KL\" && FltSearchRequest.DepartureDateTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchRequest.DepartureDateTime < Pogo.AddDays(Pogo.BookingTime, 7) && Pogo.FromCache == false",
     "then": [
       "Pogo.FromCache = true",
-      "Retract(\"FltCacheCheck\")",
       "Log(\"Result available in cache\")"
     ]
   }

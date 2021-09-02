@@ -9,18 +9,29 @@ import (
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 )
 
 func LoadRules(name, version string) *ast.KnowledgeBase {
 	lib := ast.NewKnowledgeLibrary()
 	ruleBuilder := builder.NewRuleBuilder(lib)
-	rulesFile, err := filepath.Abs("../resources/rules.json") //TODO change when tested from controller
+	rulesFile, err := filepath.Abs("../resources/rules.json")
+	//rulesFile, err := filepath.Abs("../resources/rules.json") //TODO change when tested from controller
 	//TODO need to solve by having a uniform access from test file as well as controller
 	fmt.Println(rulesFile)
 
 	jsonData, err := ioutil.ReadFile(rulesFile)
 	if err != nil {
-		panic(err)
+		if strings.Contains(err.Error(), "The system cannot find the path specified") {
+			err = nil
+			rulesFile, err = filepath.Abs("../awesomeProject1/resources/rules.json")
+			jsonData, err = ioutil.ReadFile(rulesFile)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			panic(err)
+		}
 	}
 	ruleset, err := pkg.ParseJSONRuleset(jsonData)
 	if err != nil {
@@ -41,14 +52,14 @@ func LoadDataContextToKnowledgeBase(searchRequest *models.SearchRequest,
 	if err != nil {
 		fmt.Println("Error while loading search request (fact): ", err)
 	}
-	*searchResponse = models.SearchResponse{
+	/*searchResponse = &models.SearchResponse{
 		FromCache:            false,
 		AirlineCode:          searchRequest.AirlineCode,
 		DepartureAirportCode: searchRequest.DepartureAirportCode,
 		ArrivalAirportCode:   searchRequest.ArrivalAirportCode,
 		RoundTrip:            searchRequest.RoundTrip,
 		BookingTime:          searchRequest.BookingTime,
-	}
+	}*/
 	err = dataContext.Add("Pogo", searchResponse)
 	if err != nil {
 		fmt.Println(err)
@@ -61,7 +72,19 @@ func Execute(searchRequest *models.SearchRequest, searchResponse *models.SearchR
 	dataContext := LoadDataContextToKnowledgeBase(searchRequest, searchResponse)
 	kb := LoadRules(name, version)
 	eng1 := &engine.GruleEngine{MaxCycle: 100}
-	err := eng1.Execute(*dataContext, kb)
+	//fetch matching rules
+	ruleEntries, err := eng1.FetchMatchingRules(*dataContext, kb)
+	if err != nil {
+		fmt.Println("Unable to fetch all matching rules")
+		panic(err)
+	} else {
+		fmt.Println("Matching Rule(s):")
+		for i := 0; i < len(ruleEntries); i++ {
+			fmt.Println(ruleEntries[i].RuleName + " : " + ruleEntries[i].RuleDescription)
+		}
+	}
+
+	err = eng1.Execute(*dataContext, kb)
 	if err != nil {
 		fmt.Println(err)
 	}

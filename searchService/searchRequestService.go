@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 )
 
 // SearchService Service to make a request to get search results from external service
@@ -24,7 +25,16 @@ func (d *DummySearchServiceImpl) Search(request *models.SearchRequest) string {
 	sampleSearchResultJson, err := ioutil.ReadFile(sampleSearchResultFile)
 	if err != nil {
 		fmt.Println("Couldn't read sample search result")
-		panic(err)
+		if strings.Contains(err.Error(), "The system cannot find the path specified") {
+			err = nil
+			sampleSearchResultFile, err = filepath.Abs("../awesomeProject1/resources/sampleSearchResult.json")
+			sampleSearchResultJson, err = ioutil.ReadFile(sampleSearchResultFile)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			panic(err)
+		}
 	}
 	return string(sampleSearchResultJson)
 }

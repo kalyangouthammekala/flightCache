@@ -98,7 +98,7 @@ func TestSearchWithCacheEntry(t *testing.T) {
 		DepartureDateTime: time.Date(
 			2021,
 			9,
-			04,
+			05,
 			12,
 			35,
 			0,
@@ -108,7 +108,7 @@ func TestSearchWithCacheEntry(t *testing.T) {
 		ArrivalDateTime: time.Date(
 			2021,
 			9,
-			05,
+			06,
 			12,
 			35,
 			0,
@@ -122,8 +122,15 @@ func TestSearchWithCacheEntry(t *testing.T) {
 	//cache service
 	searchService := &searchService.DummySearchServiceImpl{}
 	flightCacheService := &service.FlightCacheService{
-		Request:       request,
-		Response:      &models.SearchResponse{},
+		Request: request,
+		Response: &models.SearchResponse{
+			FromCache:            false,
+			AirlineCode:          request.AirlineCode,
+			DepartureAirportCode: request.DepartureAirportCode,
+			ArrivalAirportCode:   request.ArrivalAirportCode,
+			RoundTrip:            request.RoundTrip,
+			BookingTime:          request.BookingTime,
+		},
 		SearchService: searchService,
 	}
 
@@ -132,9 +139,9 @@ func TestSearchWithCacheEntry(t *testing.T) {
 		Version: "0.0.1",
 	}
 	//add cache entry
-	redis.AddEntry(models.DeriveCacheKeyFromRequest(request), searchService.Search(request))
-	defer ctrl.Finish()
+	key := models.DeriveCacheKeyFromRequest(request)
+	redis.AddEntry(key, searchService.Search(request))
 	response := flightCacheService.Search(kbDetails)
 
-	assert.Equal(t, true, response.FromCache, "Cache should contain it!!")
+	assert.Equal(t, true, response.FromCache, "Cache should contain the key ", key)
 }

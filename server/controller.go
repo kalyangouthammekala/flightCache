@@ -2,7 +2,8 @@ package server
 
 import (
 	"awesomeProject1/models"
-	"awesomeProject1/ruleEngine"
+	"awesomeProject1/searchService"
+	"awesomeProject1/service"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -33,8 +34,30 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	searchRequest := translateRequest(&tfmQuery)
-	searchResponse := ruleEngine.Execute(searchRequest, nil, "", "")
-	fmt.Println(tfmQuery.Destination, " ", searchResponse.FromCache)
+	flightCacheService := &service.FlightCacheService{
+		Request: searchRequest,
+		Response: &models.SearchResponse{
+			FromCache:            false,
+			AirlineCode:          searchRequest.AirlineCode,
+			DepartureAirportCode: searchRequest.DepartureAirportCode,
+			ArrivalAirportCode:   searchRequest.ArrivalAirportCode,
+			RoundTrip:            searchRequest.RoundTrip,
+			BookingTime:          searchRequest.BookingTime,
+		},
+		SearchService: &searchService.DummySearchServiceImpl{}, //TODO replace with actual implementation before deployment
+	}
+	kbDetails := &models.KnowledgeBaseForCacheRule{
+		Name:    "Test",
+		Version: "0.0.1",
+	}
+	response := flightCacheService.Search(kbDetails)
+	//searchResponse := ruleEngine.Execute(searchRequest, nil, "", "")
+	fmt.Println(tfmQuery.Destination, " ", response.FromCache)
+	responseData, err := json.Marshal(response.TfmRessponse)
+	if err != nil {
+		panic(err)
+	}
+	w.Write(responseData)
 }
 
 func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {

@@ -21,16 +21,6 @@ const ruleKLAMSNYCRoundTrip3To7DaysOfBookingInJson = `[{
     "Pogo.Result = true",
     "Log(\"Result could be cached\")"
   ]
-},
-{
-  "name": "FltCacheCheck1",
-  "desc": "when airline is KLM",
-  "salience": 10,
-  "when": "Pogo.AirlineCode == \"KL\" && Pogo.Result == false",
-  "then": [
-    "Pogo.Result = true",
-    "Log(\"Result could be cached\")"
-  ]
 }]`
 
 const arrayJSONData = `[{
@@ -106,8 +96,8 @@ func Test_IsWithinCacheDateRange(t *testing.T) {
 		RoundTrip:            true,
 		DepartureTime: time.Date(
 			2021,
-			8,
-			22,
+			9,
+			05,
 			12,
 			35,
 			0,
@@ -116,8 +106,8 @@ func Test_IsWithinCacheDateRange(t *testing.T) {
 		),
 		ArrivalTime: time.Date(
 			2021,
-			8,
-			24,
+			9,
+			06,
 			12,
 			35,
 			0,
