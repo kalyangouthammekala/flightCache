@@ -1,4 +1,4 @@
-package server
+package controller
 
 import (
 	"awesomeProject1/models"

@@ -1,12 +1,22 @@
  [
     {
-    "name": "FltCacheCheck",
+    "name": "KLMFltCacheCheck",
     "desc": "when airline is KLM and flt departure is within 3 to 7 days of booking",
     "salience": 10,
-    "when": "Pogo.AirlineCode == \"KL\" && FltSearchRequest.DepartureDateTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchRequest.DepartureDateTime < Pogo.AddDays(Pogo.BookingTime, 7) && Pogo.FromCache == false",
+    "when": "RuleInfo.AirlineCode == \"KL\" && FltSearchRequest.DepartureDateTime > RuleInfo.AddDays(FltSearchRequest.BookingTime, 3) && FltSearchRequest.DepartureDateTime < RuleInfo.AddDays(FltSearchRequest.BookingTime, 7) && RuleInfo.FromCache == false",
     "then": [
-      "Pogo.FromCache = true",
+      "RuleInfo.FromCache = true",
       "Log(\"Result available in cache\")"
     ]
-  }
+  },
+   {
+     "name": "AFFltCacheCheck",
+     "desc": "when airline is AF and flt departure is within 3 to 7 days of booking",
+     "salience": 10,
+     "when": "RuleInfo.AirlineCode == \"AF\" && FltSearchRequest.DepartureDateTime > RuleInfo.AddDays(FltSearchRequest.BookingTime, 3) && FltSearchRequest.DepartureDateTime < RuleInfo.AddDays(FltSearchRequest.BookingTime, 7) && RuleInfo.FromCache == false",
+     "then": [
+       "RuleInfo.FromCache = true",
+       "Log(\"Result available in cache\")"
+     ]
+   }
  ]

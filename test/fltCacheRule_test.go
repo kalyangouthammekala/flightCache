@@ -16,9 +16,9 @@ const ruleKLAMSNYCRoundTrip3To7DaysOfBookingInJson = `[{
   "name": "FltCacheCheck",
   "desc": "when airline is KLM and flt departure is within 3 to 7 days of booking",
   "salience": 10,
-  "when": "Pogo.AirlineCode == \"KL\" && FltSearchResult.DepartureTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchResult.DepartureTime < Pogo.AddDays(Pogo.BookingTime, 7) && Pogo.Result == false",
+  "when": "RuleInfo.AirlineCode == \"KL\" && FltSearchResult.DepartureTime > RuleInfo.AddDays(RuleInfo.BookingTime, 3) && FltSearchResult.DepartureTime < RuleInfo.AddDays(RuleInfo.BookingTime, 7) && RuleInfo.Result == false",
   "then": [
-    "Pogo.Result = true",
+    "RuleInfo.Result = true",
     "Log(\"Result could be cached\")"
   ]
 }]`
@@ -41,9 +41,9 @@ const (
   "name": "FltCacheCheck",
   "desc": "when airline is KLM and flt departure is within 3 to 7 days of booking",
   "salience": 10,
-  "when": "Pogo.AirlineCode == \"KL\" && FltSearchResult.DepartureTime > Pogo.AddDays(Pogo.BookingTime, 3) && FltSearchResult.DepartureTime < Pogo.AddDays(Pogo.BookingTime, 7) &&,,Pogo.Result == false",
+  "when": "RuleInfo.AirlineCode == \"KL\" && FltSearchResult.DepartureTime > RuleInfo.AddDays(RuleInfo.BookingTime, 3) && FltSearchResult.DepartureTime < RuleInfo.AddDays(RuleInfo.BookingTime, 7) &&,,RuleInfo.Result == false",
   "then": [
-    "Pogo.Result = true",
+    "RuleInfo.Result = true",
     "Log(\"Result could be cached\")"
   ]
 }
@@ -59,11 +59,6 @@ type CacheResult struct {
 	RoundTrip            bool
 	BookingTime          time.Time
 }
-
-// GetStringLength will return the length of provided string argument
-/*func (p *CacheResult) ShouldCache(bookingTime time.Time, searchResult FlightSearchResult) int {
-	return p.IsWithinCacheDateRange(bookingTime, searchResult.)
-}*/
 
 func (p *CacheResult) AddDays(inputTime time.Time, days int64) time.Time {
 	fmt.Println("adding days ", days)
@@ -94,54 +89,9 @@ func Test_IsWithinCacheDateRange(t *testing.T) {
 		DepartureAirlineCode: "AMS",
 		ArrivalAirlineCode:   "NYC",
 		RoundTrip:            true,
-		DepartureTime: time.Date(
-			2021,
-			9,
-			05,
-			12,
-			35,
-			0,
-			0,
-			time.UTC,
-		),
-		ArrivalTime: time.Date(
-			2021,
-			9,
-			06,
-			12,
-			35,
-			0,
-			0,
-			time.UTC,
-		),
+		DepartureTime:        time.Now().AddDate(0, 0, 4),
+		ArrivalTime:          time.Now().AddDate(0, 0, 6),
 	}
-
-	/*fltSearchResult1 := &FlightSearchResult{
-		AirlineCode:          "KL",
-		DepartureAirlineCode: "AMS",
-		ArrivalAirlineCode:   "NYC",
-		RoundTrip:            true,
-		DepartureTime:        time.Date(
-			2021,
-			8,
-			18,
-			12,
-			35,
-			0,
-			0,
-			time.UTC,
-		),
-		ArrivalTime:         time.Date(
-			2021,
-			8,
-			19,
-			12,
-			35,
-			0,
-			0,
-			time.UTC,
-		),
-	}*/
 
 	dataContext := ast.NewDataContext()
 	err := dataContext.Add("FltSearchResult", fltSearchResult)
@@ -157,7 +107,7 @@ func Test_IsWithinCacheDateRange(t *testing.T) {
 		RoundTrip:            true,
 		BookingTime:          time.Now(),
 	}
-	err = dataContext.Add("Pogo", result)
+	err = dataContext.Add("RuleInfo", result)
 	if err != nil {
 		t.Fatal(err)
 	}

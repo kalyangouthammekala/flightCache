@@ -38,3 +38,11 @@ func (d *DummySearchServiceImpl) Search(request *models.SearchRequest) string {
 	}
 	return string(sampleSearchResultJson)
 }
+
+type tfmSearchServiceClient struct {
+}
+
+func (t *tfmSearchServiceClient) Search(request *models.SearchRequest) string {
+	//TODO make a call to tfm airline search connector
+	return ""
+}
