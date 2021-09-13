@@ -19,7 +19,10 @@ func StartServer() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, %s!", r.URL.Path[1:])
+	_, err := fmt.Fprintf(w, "Hi there, %s!", r.URL.Path[1:])
+	if err != nil {
+		fmt.Println("Error in handling request ", err.Error())
+	}
 }
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,11 +56,14 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	response := flightCacheService.Search(kbDetails)
 	//searchResponse := ruleEngine.Execute(searchRequest, nil, "", "")
 	fmt.Println(tfmQuery.Destination, " ", response.FromCache)
-	responseData, err := json.Marshal(response.TfmRessponse)
+	responseData, err := json.Marshal(response) //(response.TfmRessponse)
 	if err != nil {
 		panic(err)
 	}
-	w.Write(responseData)
+	_, err = w.Write(responseData)
+	if err != nil {
+		fmt.Println("Error in writing response: ", err.Error())
+	}
 }
 
 func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
