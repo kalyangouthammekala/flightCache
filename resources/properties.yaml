@@ -1,0 +1,5 @@
+knowledgeBaseDetails-Name: Test
+knowledgeBaseDetails-Version: 0.0.1
+rule-file-path : ./resources/rules.json
+redis-addr-port-AWS : flightcachetest.i4pew7.0001.use2.cache.amazonaws.com:6379
+sample-search-result-file-path: ./resources/sampleSearchResult.json

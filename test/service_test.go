@@ -22,7 +22,7 @@ func getMockSearchService(t *testing.T, request *models.SearchRequest, addCacheE
 
 	//defer ctrl.Finish()
 	mockSearchService := mocks.NewMockSearchService(ctrl)
-	sampleSearchResultFile, err := filepath.Abs("../resources/sampleSearchResult.json")
+	sampleSearchResultFile, err := filepath.Abs("sampleSearchResult.json")
 	if err != nil {
 		fmt.Println("Couldn't parse sample search result file path")
 		panic(err)
@@ -35,7 +35,7 @@ func getMockSearchService(t *testing.T, request *models.SearchRequest, addCacheE
 	mockSearchService.EXPECT().Search(gomock.Any()).Return(string(sampleSearchResultJson))
 
 	if addCacheEntry {
-		redis.AddEntry(models.DeriveCacheKeyFromRequest(request), string(sampleSearchResultJson))
+		redis.AddEntry(models.DeriveCacheKeyFromRequest(request), string(sampleSearchResultJson), nil)
 	}
 
 	return mockSearchService
@@ -48,8 +48,8 @@ func TestSearchWithEmptyCache(t *testing.T) {
 		ArrivalAirportCode:   "NYC",
 		DepartureDateTime: time.Date(
 			2021,
-			9,
-			04,
+			11,
+			19,
 			12,
 			35,
 			0,
@@ -72,7 +72,7 @@ func TestSearchWithEmptyCache(t *testing.T) {
 	mockSearchService := getMockSearchService(t, request, false)
 	defer ctrl.Finish()
 	//remove all entries in cache
-	redis.RemoveAllEntries()
+	//redis.RemoveAllEntries()
 
 	//cache service
 	flightCacheService := &service.FlightCacheService{
@@ -85,7 +85,7 @@ func TestSearchWithEmptyCache(t *testing.T) {
 		Name:    "Test",
 		Version: "0.0.1",
 	}
-	response := flightCacheService.Search(kbDetails)
+	response := flightCacheService.Search(kbDetails, nil)
 
 	assert.Equal(t, false, response.FromCache, "Cache should not contain it!!")
 }
@@ -97,8 +97,8 @@ func TestSearchWithCacheEntry(t *testing.T) {
 		ArrivalAirportCode:   "NYC",
 		DepartureDateTime: time.Date(
 			2021,
-			9,
-			05,
+			11,
+			19,
 			12,
 			35,
 			0,
@@ -140,8 +140,8 @@ func TestSearchWithCacheEntry(t *testing.T) {
 	}
 	//add cache entry
 	key := models.DeriveCacheKeyFromRequest(request)
-	redis.AddEntry(key, searchService.Search(request))
-	response := flightCacheService.Search(kbDetails)
+	redis.AddEntry(key, searchService.Search(request), nil)
+	response := flightCacheService.Search(kbDetails, nil)
 
 	assert.Equal(t, true, response.FromCache, "Cache should contain the key ", key)
 }

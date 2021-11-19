@@ -120,3 +120,17 @@ type KnowledgeBaseForCacheRule struct {
 	Name    string
 	Version string
 }
+
+type SearchResponseFromRuleEngine struct {
+	Cacheable   bool   `json:"cacheable"`
+	AirlineCode string `json:"airlineCode"`
+}
+
+type FlightCacheSearchQuery struct {
+	DepartureDateTimeInUtc string `json:"departure_date_time_in_utc"`
+	AirlineCode            string `json:"airline_code"`
+	BookingTimeInUtc       string `json:"booking_time_in_utc"`
+	Origin                 string `json:"origin"`
+	Destination            string `json:"destination"`
+	JourneyType            string `json:"journeyType"`
+}

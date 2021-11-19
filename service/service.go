@@ -7,6 +7,7 @@ import (
 	"awesomeProject1/searchService"
 	"encoding/json"
 	"fmt"
+	"github.com/magiconair/properties"
 )
 
 type cacheService interface {
@@ -37,35 +38,37 @@ func (f FlightCacheService) LoadCache(knowledgeBaseDetails *models.KnowledgeBase
 	return rulesLoaded
 }
 
-func (f FlightCacheService) Search(knowledgeBaseDetails *models.KnowledgeBaseForCacheRule) *models.SearchResponse {
-	response := ruleEngine.Execute(f.Request, f.Response,
-		knowledgeBaseDetails.Name, knowledgeBaseDetails.Version)
+func (f FlightCacheService) Search(knowledgeBaseDetails *models.KnowledgeBaseForCacheRule, flightCacheProperties *properties.Properties) *models.SearchResponse {
+	//response := ruleEngine.Execute(f.Request, f.Response,
+	//	knowledgeBaseDetails.Name, knowledgeBaseDetails.Version)
+
+	response := ruleEngine.RuleEngineSearchResponse(f.Request, f.Response)
 	if response.FromCache {
 		//process the request by querying the cache
 		cacheEntryKey := models.DeriveCacheKeyFromRequest(f.Request)
-		cacheEntry := redis.Query(cacheEntryKey)
+		cacheEntry := redis.Query(cacheEntryKey, flightCacheProperties)
 		fmt.Println("Cache entry retrieved: ", cacheEntry.Value)
 		if cacheEntry.Value == "" {
 			//call search service
-			f.requestSearchService(response, cacheEntryKey, true)
+			f.requestSearchService(response, cacheEntryKey, true, flightCacheProperties)
 
 		} else {
 			response.FromCache = true
-			loadResponseWithResult(cacheEntry.Value, "", response, false)
+			loadResponseWithResult(cacheEntry.Value, "", response, false, flightCacheProperties)
 			fmt.Println("Result loaded from cache with entry: ", cacheEntryKey)
 		}
 
 	} else {
 		//get from search service
-		response = f.requestSearchService(response, "", false)
+		response = f.requestSearchService(response, "", false, flightCacheProperties)
 	}
 	return response
 }
 
-func loadResponseWithResult(result, cacheEntryKey string, response *models.SearchResponse, addToCache bool) *models.SearchResponse {
+func loadResponseWithResult(result, cacheEntryKey string, response *models.SearchResponse, addToCache bool, p *properties.Properties) *models.SearchResponse {
 	tfmRespose := &models.TfmResponse{}
-	error := json.Unmarshal([]byte(result), &tfmRespose)
-	if error != nil {
+	err := json.Unmarshal([]byte(result), &tfmRespose)
+	if err != nil {
 		fmt.Println("Unable to unmashal string response to tfmresponse")
 	}
 	response.TfmRessponse = *tfmRespose
@@ -73,16 +76,16 @@ func loadResponseWithResult(result, cacheEntryKey string, response *models.Searc
 	//check and load into cache
 	//store the result in cache for future use
 	if result != "" && addToCache && cacheEntryKey != "" {
-		redis.AddEntry(cacheEntryKey, result)
+		redis.AddEntry(cacheEntryKey, result, p)
 		fmt.Println("Cache entry added: ", cacheEntryKey)
 	}
 
 	return response
 }
 
-func (f FlightCacheService) requestSearchService(response *models.SearchResponse, cacheEntryKey string, addToCache bool) *models.SearchResponse {
+func (f FlightCacheService) requestSearchService(response *models.SearchResponse, cacheEntryKey string, addToCache bool, p *properties.Properties) *models.SearchResponse {
 	response.FromCache = false
 	result := f.SearchService.Search(f.Request)
-	loadResponseWithResult(result, cacheEntryKey, response, addToCache)
+	loadResponseWithResult(result, cacheEntryKey, response, addToCache, p)
 	return response
 }

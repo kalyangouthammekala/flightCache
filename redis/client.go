@@ -4,6 +4,7 @@ import (
 	"awesomeProject1/models"
 	"fmt"
 	"github.com/go-redis/redis"
+	"github.com/magiconair/properties"
 )
 
 type redisClient interface {
@@ -11,16 +12,19 @@ type redisClient interface {
 	AddEntry(key, value string)
 }
 
-func getRedisClient() *redis.Client {
+//Addr:	  "flightcachetest.i4pew7.0001.use2.cache.amazonaws.com:6379",
+//Addr:     "localhost:6379",
+func getRedisClient(p *properties.Properties) *redis.Client {
+	redisAddr, _ := p.Get("redis-addr-port-AWS")
 	return redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     redisAddr,
 		Password: "",
 		DB:       0,
 	})
 }
 
-func Query(key string) *models.CacheEntry {
-	client := getRedisClient()
+func Query(key string, p *properties.Properties) *models.CacheEntry {
+	client := getRedisClient(p)
 
 	val, err := client.Get(key).Result()
 	if err != nil {
@@ -33,8 +37,11 @@ func Query(key string) *models.CacheEntry {
 	}
 }
 
-func AddEntry(key, value string) {
-	client := getRedisClient()
+func AddEntry(key, value string, p *properties.Properties) {
+	client := getRedisClient(p)
+
+	keys := client.Keys("*")
+	fmt.Println(keys)
 	/*json, err := json.Marshal([]byte(value))
 	if err != nil {
 		fmt.Println(err)
@@ -46,14 +53,14 @@ func AddEntry(key, value string) {
 	}
 }
 
-func RemoveAllEntries() {
-	client := getRedisClient()
-	fmt.Println("***** Removing all entries in the cache ********")
-	client.FlushAll()
-}
+//func RemoveAllEntries(p *properties.Properties) {
+//	client := getRedisClient(p)
+//	fmt.Println("***** Removing all entries in the cache ********")
+//	client.FlushAll()
+//}
 
-func RemoveEntry(key string) {
-	client := getRedisClient()
+func RemoveEntry(key string, p *properties.Properties) {
+	client := getRedisClient(p)
 	fmt.Println("***** Removing entry for ", key, " in the cache ********")
 	client.Del(key)
 }

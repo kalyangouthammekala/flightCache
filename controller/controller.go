@@ -6,17 +6,17 @@ import (
 	"awesomeProject1/service"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"github.com/magiconair/properties"
 	"log"
 	"net/http"
 	"time"
 )
 
-func StartServer() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/search", searchHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
+//func StartServer() {
+//	http.HandleFunc("/", handler)
+//	http.HandleFunc("/flightCache/search", searchHandler)
+//	log.Fatal(http.ListenAndServe(":8081", nil))
+//}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	_, err := fmt.Fprintf(w, "Hi there, %s!", r.URL.Path[1:])
@@ -25,13 +25,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func searchHandler(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
+//func SearchHandler(w http.ResponseWriter, r *http.Request) {
+func SearchHandler(r string, flightCacheProperties *properties.Properties) ([]byte, error) {
+	log.Println("Entering into SearchHandler")
+	//body, err := ioutil.ReadAll(r.Body)
+	//if err != nil {
+	//	panic(err)
+	//}
 	tfmQuery := models.TfmSearchQuery{}
-	err = json.Unmarshal([]byte(body), &tfmQuery)
+	err := json.Unmarshal([]byte(r), &tfmQuery)
 	if err != nil {
 		panic(err)
 	}
@@ -53,17 +55,18 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		Name:    "Test",
 		Version: "0.0.1",
 	}
-	response := flightCacheService.Search(kbDetails)
+	response := flightCacheService.Search(kbDetails, flightCacheProperties)
 	//searchResponse := ruleEngine.Execute(searchRequest, nil, "", "")
 	fmt.Println(tfmQuery.Destination, " ", response.FromCache)
 	responseData, err := json.Marshal(response) //(response.TfmRessponse)
 	if err != nil {
 		panic(err)
 	}
-	_, err = w.Write(responseData)
-	if err != nil {
-		fmt.Println("Error in writing response: ", err.Error())
-	}
+	//_, err = w.Write(responseData)
+	//if err != nil {
+	//	fmt.Println("Error in writing response: ", err.Error())
+	//}
+	return responseData, err
 }
 
 func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
