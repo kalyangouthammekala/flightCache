@@ -14,6 +14,8 @@ import (
 	"time"
 )
 
+var FlightCacheProperties *properties.Properties
+
 //func StartServer() {
 //	http.HandleFunc("/", handler)
 //	http.HandleFunc("/flightCache/search", searchHandler)
@@ -28,48 +30,87 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 //func SearchHandler(w http.ResponseWriter, r *http.Request) {
-func SearchHandler(r string, flightCacheProperties *properties.Properties) ([]byte, error) {
+func SearchHandler(request string, flightCacheProperties *properties.Properties) ([]byte, error) {
+
 	log.Println("Entering into SearchHandler")
-	//body, err := ioutil.ReadAll(r.Body)
-	//if err != nil {
-	//	panic(err)
-	//}
-	tfmQuery := models.TfmSearchQuery{}
-	err := json.Unmarshal([]byte(r), &tfmQuery)
+	var wideSearchRequest models.WideSearchQuery
+	var response []byte
+	err := json.Unmarshal([]byte(request), &wideSearchRequest)
 	if err != nil {
 		panic(err)
 	}
 
-	// wideSearch as json interface
-	// loop through the combinations
-	// and return search objects.
+	searchResponse := process(wideSearchRequest)
+	response, err = json.Marshal(searchResponse)
+	return response, err
+}
 
-	// FOR WIDE SEARCH
+func processFltCacheRuleConfigRequest(request *models.SearchRequest, resultMap map[*models.SearchRequest]*models.SearchResponseFromRuleEngine) {
+	searchRuleEngineResponse := make(chan *models.SearchResponseFromRuleEngine)
+	ruleEngine.RuleEngineClientResponseThroughChan(request, searchRuleEngineResponse)
+	response := <-searchRuleEngineResponse
+	resultMap[request] = response
+}
 
-	ws := models.WideSearchQuery{}
-	err = json.Unmarshal([]byte(r), &ws)
-	if err != nil {
-		panic(err)
-	}
+func processFltCacheSearch(request *models.SearchRequest, resultsMap map[string]models.SearchResult) {
+	searchResult := make(chan *models.SearchResult)
+	searchKey := make(chan *string)
+	go performSearchThroughChan(request, FlightCacheProperties, searchResult, searchKey)
+	resultKey := <-searchKey
+	result := <-searchResult
+	resultsMap[*resultKey] = *result
+}
 
-	searchRequestArray := searchRequestArrayObj(&ws)
+func process(request models.WideSearchQuery) models.FlightCacheServiceResponse {
 
-	for i, request := range searchRequestArray {
-		// call the search service for the i times
-		fmt.Println(i, "Search Objects")
-		_ = processSearchQueryRequest(request, flightCacheProperties)
+	resultsMap := make(map[string]models.SearchResult)
+
+	//split the request into individual requests
+	subRequests := splitRequestIntoUnits(&request)
+
+	//TODO check for batch processing
+	/*batchSizePropertyVal, isBatchSizePropertyPresent := FlightCacheProperties.Get("batch-size")
+	batchProcessingEnabledPropertyVal, isBatchProcPropertyPresent := FlightCacheProperties.Get("batch-proc-enabled")
+	if isBatchProcPropertyPresent && isBatchSizePropertyPresent {
+		isBatchProcEnabled, err := strconv.ParseBool(batchProcessingEnabledPropertyVal)
+		batchSize, err := strconv.Atoi(batchSizePropertyVal)
 		if err != nil {
-			log.Panic(err)
+			log.Println("Invalid property values for batch processing in configuration")
 		}
+		log.Println(isBatchProcEnabled, batchSize)
+	}*/
+
+	for _, subRequest := range subRequests {
+		flightCacheRuleConfigurationCheckProperty, _ := FlightCacheProperties.Get("isFlightCacheRuleConfigurationCheckEnabled")
+
+		isFlightCacheRuleConfigurationCheckEnabled, _ := strconv.ParseBool(flightCacheRuleConfigurationCheckProperty)
+		//If rule configuration check is enabled
+		if isFlightCacheRuleConfigurationCheckEnabled {
+			resultMap := make(map[*models.SearchRequest]*models.SearchResponseFromRuleEngine)
+
+			//Flt Cache rule engine check processing
+			go processFltCacheRuleConfigRequest(subRequest, resultMap)
+
+			//Flight Cache search processing
+			go func() {
+				for mapEntryRequest, ruleConfigResponse := range resultMap {
+					if ruleConfigResponse.Cacheable {
+						go processFltCacheSearch(mapEntryRequest, resultsMap)
+					}
+				}
+			}()
+
+		} else {
+			go processFltCacheSearch(subRequest, resultsMap)
+		}
+
 	}
 
-	//searchRequest := translateRequest(&tfmQuery)
+	return models.FlightCacheServiceResponse{
+		Query:   request,
+		Results: resultsMap,
+	}
 
-	//_, err = w.Write(responseData)
-	//if err != nil {
-	//	fmt.Println("Error in writing response: ", err.Error())
-	//}
-	return []byte("test"), err
 }
 
 func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
@@ -105,7 +146,7 @@ func isRoundTripJourney(journey string) bool {
 	return isRoundTripJourney
 }
 
-func searchRequestArrayObj(ws *models.WideSearchQuery) []*models.SearchRequest {
+func splitRequestIntoUnits(ws *models.WideSearchQuery) []*models.SearchRequest {
 
 	var ff []*models.SearchRequest
 	var dd *models.SearchRequest
@@ -175,6 +216,37 @@ func processSearchQueryRequest(searchRequest *models.SearchRequest, flightCacheP
 	}
 
 	return searchResult
+}
+
+func performSearchThroughChan(request *models.SearchRequest, p *properties.Properties, searchResult chan *models.SearchResult, searchKey chan *string) {
+	//var searchResult *models.SearchResult
+
+	cacheEntryKey := models.DeriveCacheKeyFromRequest(request)
+	cacheEntry := redis.Query(cacheEntryKey, p)
+	log.Println("Cache entry retrieved: ", cacheEntry.Value)
+	searchKey <- &cacheEntryKey
+	if cacheEntry.Value == "" {
+		//call search service
+		searchResult <- &models.SearchResult{
+			Result: models.Result{},
+			AdditionalInfo: models.AdditionalInfo{
+				NeedToBeCached: true,
+			},
+		}
+
+	} else {
+		result, err := service.LoadResultFromCache(cacheEntry.Value)
+		if err != nil {
+			log.Panicln("Couldn't load result ", err.Error())
+		} else {
+			searchResult <- &models.SearchResult{
+				Result: *result,
+				AdditionalInfo: models.AdditionalInfo{
+					NeedToBeCached: true,
+				},
+			}
+		}
+	}
 }
 
 func performSearch(request *models.SearchRequest, p *properties.Properties) *models.SearchResult {

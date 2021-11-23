@@ -76,6 +76,47 @@ func RuleEngineClientResponse(searchRequest *models.SearchRequest) *models.Searc
 	return resBody
 }
 
+func RuleEngineClientResponseThroughChan(searchRequest *models.SearchRequest, response chan *models.SearchResponseFromRuleEngine) {
+
+	reqBody := models.FlightCacheSearchQuery{
+		DepartureDateTimeInUtc: dateFmt(searchRequest.DepartureDateTime),
+		AirlineCode:            searchRequest.AirlineCode,
+		BookingTimeInUtc:       dateFmt(searchRequest.BookingTime),
+		Origin:                 searchRequest.DepartureAirportCode,
+		Destination:            searchRequest.ArrivalAirportCode,
+		JourneyType:            journeyType(searchRequest.RoundTrip),
+	}
+	jsonConversion, err := json.Marshal(reqBody)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	requestBody := string(jsonConversion)
+
+	log.Println("Calling Lambda Service")
+
+	data, err := invokeRuleEngineLambda(requestBody)
+
+	s, err := strconv.Unquote(string(data))
+
+	if err != nil {
+		fmt.Println(err, "Error During String unquote")
+	}
+
+	fmt.Println("string converted using unquote : ", s)
+	fmt.Println("Original data: ", data)
+
+	resBody := &models.SearchResponseFromRuleEngine{}
+	err = json.Unmarshal([]byte(s), &resBody)
+
+	if err != nil {
+		panic(err)
+	}
+
+	response <- resBody
+}
+
 func journeyType(journey bool) string {
 
 	if !journey {

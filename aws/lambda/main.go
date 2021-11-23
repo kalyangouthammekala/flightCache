@@ -8,13 +8,9 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/magiconair/properties"
-	"strings"
-
-	/*"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"*/
 	"log"
 	"net/http"
+	"strings"
 )
 
 var (
@@ -23,6 +19,7 @@ var (
 
 func init() {
 	flightCacheProperties = config.LoadProperties()
+	controller.FlightCacheProperties = flightCacheProperties
 }
 
 func main() {
