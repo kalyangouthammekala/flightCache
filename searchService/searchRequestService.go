@@ -16,6 +16,16 @@ type SearchService interface {
 type DummySearchServiceImpl struct {
 }
 
+type CacheSearchServiceImpl struct {
+}
+
+type DbSearchServiceImpl struct {
+}
+
+func (cacheSearchService *CacheSearchServiceImpl) Search(request *models.SearchRequest) string {
+	return ""
+}
+
 func (d *DummySearchServiceImpl) Search(request *models.SearchRequest) string {
 	sampleSearchResultFile, err := filepath.Abs("sampleSearchResult.json")
 	if err != nil {

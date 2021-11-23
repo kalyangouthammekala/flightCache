@@ -19,7 +19,7 @@ type SearchResponse struct {
 	DepartureAirportCode string
 	ArrivalAirportCode   string
 	RoundTrip            bool
-	TfmRessponse         TfmResponse
+	TfmResponse          TfmResponse
 	BookingTime          time.Time
 }
 
@@ -133,4 +133,37 @@ type FlightCacheSearchQuery struct {
 	Origin                 string `json:"origin"`
 	Destination            string `json:"destination"`
 	JourneyType            string `json:"journeyType"`
+}
+
+type WideSearchQuery struct {
+	DepartureDates          []string `json:"departureDates"`
+	ArrivalDates            []string `json:"arrivalDates"`
+	OriginAirportCodes      []string `json:"originAirportCodes"`
+	DestinationAirportCodes []string `json:"destinationAirportCodes"`
+	Sources                 []string `json:"sources"`
+	AirlineCodes            []string `json:"airlineCodes"`
+	JourneyType             string   `json:"journeyType"`
+}
+
+type Result struct {
+	Routes           map[string]Route   `json:"routes"`
+	Segments         map[string]Segment `json:"segments"`
+	Combinations     []Combination      `json:"combinations"`
+	Ancillaries      []Ancillary        `json:"ancillaries"`
+	AdditionalParams map[string]string  `json:"additionalParams,omitempty"`
+}
+
+type FlightCacheServiceResponse struct {
+	Query   WideSearchQuery `json:"query"`
+	Results map[string]SearchResult
+}
+
+type SearchResult struct {
+	Result         Result         `json:"result"`
+	AdditionalInfo AdditionalInfo `json:"additionalInfo"`
+}
+
+type AdditionalInfo struct {
+	NeedToBeCached bool   `json:"needToBeCached"`
+	ResultType     string `json:"resultType"`
 }

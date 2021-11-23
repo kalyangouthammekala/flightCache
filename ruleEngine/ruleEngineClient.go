@@ -12,14 +12,7 @@ import (
 	"time"
 )
 
-func RuleEngineSearchResponse(searchRequest *models.SearchRequest, searchResponse *models.SearchResponse) *models.SearchResponse {
-	res := ruleEngineClientResponse(searchRequest)
-	searchResponse.FromCache = res.Cacheable
-	log.Println("Response from cache lambda", searchResponse.FromCache)
-	return searchResponse
-}
-
-func ruleEngineClientResponse(searchRequest *models.SearchRequest) *models.SearchResponseFromRuleEngine {
+func RuleEngineClientResponse(searchRequest *models.SearchRequest) *models.SearchResponseFromRuleEngine {
 
 	reqBody := models.FlightCacheSearchQuery{
 		DepartureDateTimeInUtc: dateFmt(searchRequest.DepartureDateTime),
