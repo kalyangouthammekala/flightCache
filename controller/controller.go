@@ -47,26 +47,32 @@ func SearchHandler(request string, flightCacheProperties *properties.Properties)
 
 func processFltCacheRuleConfigRequest(request *models.SearchRequest, resultMap map[*models.SearchRequest]*models.SearchResponseFromRuleEngine) {
 	searchRuleEngineResponse := make(chan *models.SearchResponseFromRuleEngine)
-	ruleEngine.RuleEngineClientResponseThroughChan(request, searchRuleEngineResponse)
+	go ruleEngine.RuleEngineClientResponseThroughChan(request, searchRuleEngineResponse)
 	response := <-searchRuleEngineResponse
 	resultMap[request] = response
 }
 
 func processFltCacheSearch(request *models.SearchRequest, resultsMap map[string]models.SearchResult) {
-	searchResult := make(chan *models.SearchResult)
+	/*searchResult := make(chan *models.SearchResult)
 	searchKey := make(chan *string)
 	go performSearchThroughChan(request, FlightCacheProperties, searchResult, searchKey)
 	resultKey := <-searchKey
 	result := <-searchResult
-	resultsMap[*resultKey] = *result
+	resultsMap[*resultKey] = *result*/
+	result, key, _ := performSearch(request, FlightCacheProperties)
+	resultsMap[*key] = *result
 }
 
 func process(request models.WideSearchQuery) models.FlightCacheServiceResponse {
+
+	log.Println("Entering into Process")
 
 	resultsMap := make(map[string]models.SearchResult)
 
 	//split the request into individual requests
 	subRequests := splitRequestIntoUnits(&request)
+
+	log.Println("No of sub request", len(subRequests))
 
 	//TODO check for batch processing
 	/*batchSizePropertyVal, isBatchSizePropertyPresent := FlightCacheProperties.Get("batch-size")
@@ -84,27 +90,51 @@ func process(request models.WideSearchQuery) models.FlightCacheServiceResponse {
 		flightCacheRuleConfigurationCheckProperty, _ := FlightCacheProperties.Get("isFlightCacheRuleConfigurationCheckEnabled")
 
 		isFlightCacheRuleConfigurationCheckEnabled, _ := strconv.ParseBool(flightCacheRuleConfigurationCheckProperty)
+
+		log.Println("Rule Engine check Enabled: ", isFlightCacheRuleConfigurationCheckEnabled)
 		//If rule configuration check is enabled
 		if isFlightCacheRuleConfigurationCheckEnabled {
 			resultMap := make(map[*models.SearchRequest]*models.SearchResponseFromRuleEngine)
 
 			//Flt Cache rule engine check processing
-			go processFltCacheRuleConfigRequest(subRequest, resultMap)
+			log.Println("Calling Rule Engine per request")
+			processFltCacheRuleConfigRequest(subRequest, resultMap)
 
 			//Flight Cache search processing
-			go func() {
+			log.Println("Calling cache search with resultMap with entries count: ", len(resultMap))
+			for mapEntryRequest, ruleConfigResponse := range resultMap {
+				log.Println("Cacheable : ", ruleConfigResponse.Cacheable)
+				if ruleConfigResponse.Cacheable {
+					processFltCacheSearch(mapEntryRequest, resultsMap)
+				} else {
+					log.Println("Cacheable : ", ruleConfigResponse.Cacheable)
+					searchKey := models.DeriveCacheKeyFromRequest(mapEntryRequest)
+					log.Println("searchKey : ", searchKey)
+					result := &models.SearchResult{
+						Result: models.Result{},
+						AdditionalInfo: models.AdditionalInfo{
+							NeedToBeCached: false,
+							ResultType:     "",
+						},
+					}
+					resultsMap[searchKey] = *result
+				}
+			}
+			/*go func() {
 				for mapEntryRequest, ruleConfigResponse := range resultMap {
 					if ruleConfigResponse.Cacheable {
 						go processFltCacheSearch(mapEntryRequest, resultsMap)
 					}
 				}
-			}()
+			}()*/
 
 		} else {
-			go processFltCacheSearch(subRequest, resultsMap)
+			processFltCacheSearch(subRequest, resultsMap)
 		}
 
 	}
+
+	log.Println(" Length of Results Maps : ", len(resultsMap))
 
 	return models.FlightCacheServiceResponse{
 		Query:   request,
@@ -151,22 +181,23 @@ func splitRequestIntoUnits(ws *models.WideSearchQuery) []*models.SearchRequest {
 	var ff []*models.SearchRequest
 	var dd *models.SearchRequest
 	JourneyType := ws.JourneyType
-	for _, r1 := range ws.DepartureDates {
-		for _, r2 := range ws.OriginAirportCodes {
-			for _, r3 := range ws.AirlineCodes {
-				for _, r4 := range ws.ArrivalDates {
-					for _, _ = range ws.Sources {
-						for _, r6 := range ws.DestinationAirportCodes {
+	for _, departureDate := range ws.DepartureDates {
+		for _, originAirportCode := range ws.OriginAirportCodes {
+			for _, airlineCode := range ws.AirlineCodes {
+				for _, arrivalDate := range ws.ArrivalDates {
+					for _, source := range ws.Sources {
+						for _, destinationAirportCode := range ws.DestinationAirportCodes {
 
 							dd = &models.SearchRequest{
 								Cached:               false,
-								AirlineCode:          r3,
-								DepartureAirportCode: r2,
-								ArrivalAirportCode:   r6,
-								DepartureDateTime:    convertDate(r1),
-								ArrivalDateTime:      convertDate(r4),
+								AirlineCode:          airlineCode,
+								DepartureAirportCode: originAirportCode,
+								ArrivalAirportCode:   destinationAirportCode,
+								DepartureDateTime:    convertDate(departureDate),
+								ArrivalDateTime:      convertDate(arrivalDate),
 								RoundTrip:            isRoundTripJourney(JourneyType),
 								BookingTime:          time.Now(),
+								Source:               source,
 							}
 							//fmt.Println(r1," ", r2, " " ,r3, "", r4, " ", r5, " ", r6)
 							ff = append(ff, dd)
@@ -190,13 +221,16 @@ func processSearchQueryRequest(searchRequest *models.SearchRequest, flightCacheP
 	if isFlightCacheRuleConfigurationCheckEnabled {
 		//Call to flight cache rule Engine service
 
+		log.Println("Calling Rule Engine ")
+
 		response := ruleEngine.RuleEngineClientResponse(searchRequest)
+
 		if response.Cacheable {
 			//call to perform query search
 			//if entry present in the cache -> build the response with the value from cache
 			// and set required to cache as false
 			//else set empty result, required to cache result as true
-			searchResult = performSearch(searchRequest, flightCacheProperties)
+			searchResult, _, _ = performSearch(searchRequest, flightCacheProperties)
 		} else {
 			//set empty result, required to cache result as false
 			searchResult = &models.SearchResult{
@@ -212,7 +246,7 @@ func processSearchQueryRequest(searchRequest *models.SearchRequest, flightCacheP
 		//if entry present in the cache -> build the response with the value from cache
 		// and set required to cache as false
 		//else set empty result, required to cache result as true
-		searchResult = performSearch(searchRequest, flightCacheProperties)
+		searchResult, _, _ = performSearch(searchRequest, flightCacheProperties)
 	}
 
 	return searchResult
@@ -249,12 +283,12 @@ func performSearchThroughChan(request *models.SearchRequest, p *properties.Prope
 	}
 }
 
-func performSearch(request *models.SearchRequest, p *properties.Properties) *models.SearchResult {
+func performSearch(request *models.SearchRequest, p *properties.Properties) (*models.SearchResult, *string, error) {
 	var searchResult *models.SearchResult
 
 	cacheEntryKey := models.DeriveCacheKeyFromRequest(request)
 	cacheEntry := redis.Query(cacheEntryKey, p)
-	fmt.Println("Cache entry retrieved: ", cacheEntry.Value)
+	fmt.Println("Cache entry retrieved:", cacheEntry.Value, "#")
 	if cacheEntry.Value == "" {
 		//call search service
 		searchResult = &models.SearchResult{
@@ -278,5 +312,5 @@ func performSearch(request *models.SearchRequest, p *properties.Properties) *mod
 		}
 	}
 
-	return searchResult
+	return searchResult, &cacheEntryKey, nil
 }

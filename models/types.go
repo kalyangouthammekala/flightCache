@@ -11,6 +11,7 @@ type SearchRequest struct {
 	ArrivalDateTime      time.Time
 	RoundTrip            bool
 	BookingTime          time.Time
+	Source               string
 }
 
 type SearchResponse struct {

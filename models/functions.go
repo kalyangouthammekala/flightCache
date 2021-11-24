@@ -25,12 +25,15 @@ func DeriveCacheKeyFromRequest(request *SearchRequest) string {
 	if request.RoundTrip {
 		journeyType = "R"
 		arrivalTime = "-" + TransformDate(request.ArrivalDateTime)
+		key = request.DepartureAirportCode + request.ArrivalAirportCode + "-" + journeyType + "" +
+			"-" + TransformDate(request.DepartureDateTime) +
+			arrivalTime + "-" + request.AirlineCode + "-" + request.Source
 	} else {
 		journeyType = "O"
+		key = request.DepartureAirportCode + request.ArrivalAirportCode + "-" + journeyType + "" +
+			"-" + TransformDate(request.DepartureDateTime) +
+			"-" + request.AirlineCode + "-" + request.Source
 	}
-	key = request.DepartureAirportCode + request.ArrivalAirportCode + "-" + journeyType + "" +
-		"-" + TransformDate(request.DepartureDateTime) +
-		arrivalTime
 
 	fmt.Println("Key for Cache ", key)
 

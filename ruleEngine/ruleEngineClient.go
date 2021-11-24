@@ -73,6 +73,8 @@ func RuleEngineClientResponse(searchRequest *models.SearchRequest) *models.Searc
 		panic(err)
 	}
 
+	fmt.Println("Final Result from Rule Engine : ", &resBody.Cacheable)
+
 	return resBody
 }
 
@@ -104,8 +106,8 @@ func RuleEngineClientResponseThroughChan(searchRequest *models.SearchRequest, re
 		fmt.Println(err, "Error During String unquote")
 	}
 
-	fmt.Println("string converted using unquote : ", s)
-	fmt.Println("Original data: ", data)
+	log.Println("string converted using unquote : ", s)
+	log.Println("Original data: ", data)
 
 	resBody := &models.SearchResponseFromRuleEngine{}
 	err = json.Unmarshal([]byte(s), &resBody)
