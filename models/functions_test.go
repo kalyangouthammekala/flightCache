@@ -1,23 +1,50 @@
 package models
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+	"time"
+)
 
-func TestDeriveCacheKeyFromRequest(t *testing.T) {
-	type args struct {
-		request *SearchRequest
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := DeriveCacheKeyFromRequest(tt.args.request); got != tt.want {
-				t.Errorf("DeriveCacheKeyFromRequest() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+var oneWayResult = SearchRequest{
+	Cached:               false,
+	AirlineCode:          "KL",
+	DepartureAirportCode: "AMS",
+	ArrivalAirportCode:   "HAJ",
+	DepartureDateTime:    "2021-11-22",
+	ArrivalDateTime:      "",
+	RoundTrip:            false,
+	BookingTime:          time.Time{},
+	Source:               "NDC",
+}
+
+var roundTripResult = SearchRequest{
+	Cached:               false,
+	AirlineCode:          "KL",
+	DepartureAirportCode: "AMS",
+	ArrivalAirportCode:   "HAJ",
+	DepartureDateTime:    "2021-11-22",
+	ArrivalDateTime:      "2021-11-23",
+	RoundTrip:            true,
+	BookingTime:          time.Time{},
+	Source:               "NDC",
+}
+
+func TestDeriveCacheKeyFromRequestONEWAY(t *testing.T) {
+	var (
+		keyO string
+	)
+
+	keyO = DeriveCacheKeyFromRequest(&oneWayResult)
+
+	fmt.Println(keyO)
+}
+
+func TestDeriveCacheKeyFromRequestRound(t *testing.T) {
+	var (
+		key string
+	)
+
+	key = DeriveCacheKeyFromRequest(&roundTripResult)
+	fmt.Println(key)
 }

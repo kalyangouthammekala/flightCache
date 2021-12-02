@@ -7,8 +7,8 @@ type SearchRequest struct {
 	AirlineCode          string
 	DepartureAirportCode string
 	ArrivalAirportCode   string
-	DepartureDateTime    time.Time
-	ArrivalDateTime      time.Time
+	DepartureDateTime    string
+	ArrivalDateTime      string
 	RoundTrip            bool
 	BookingTime          time.Time
 	Source               string
@@ -129,6 +129,7 @@ type SearchResponseFromRuleEngine struct {
 
 type FlightCacheSearchQuery struct {
 	DepartureDateTimeInUtc string `json:"departure_date_time_in_utc"`
+	ArrivalDateTimeInUTC   string `json:"arrival_date_time_in_utc"`
 	AirlineCode            string `json:"airline_code"`
 	BookingTimeInUtc       string `json:"booking_time_in_utc"`
 	Origin                 string `json:"origin"`

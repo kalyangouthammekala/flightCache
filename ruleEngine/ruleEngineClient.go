@@ -15,7 +15,8 @@ import (
 func RuleEngineClientResponse(searchRequest *models.SearchRequest) *models.SearchResponseFromRuleEngine {
 
 	reqBody := models.FlightCacheSearchQuery{
-		DepartureDateTimeInUtc: dateFmt(searchRequest.DepartureDateTime),
+		DepartureDateTimeInUtc: searchRequest.DepartureDateTime,
+		ArrivalDateTimeInUTC:   searchRequest.ArrivalDateTime,
 		AirlineCode:            searchRequest.AirlineCode,
 		BookingTimeInUtc:       dateFmt(searchRequest.BookingTime),
 		Origin:                 searchRequest.DepartureAirportCode,
@@ -81,7 +82,7 @@ func RuleEngineClientResponse(searchRequest *models.SearchRequest) *models.Searc
 func RuleEngineClientResponseThroughChan(searchRequest *models.SearchRequest, response chan *models.SearchResponseFromRuleEngine) {
 
 	reqBody := models.FlightCacheSearchQuery{
-		DepartureDateTimeInUtc: dateFmt(searchRequest.DepartureDateTime),
+		DepartureDateTimeInUtc: searchRequest.DepartureDateTime,
 		AirlineCode:            searchRequest.AirlineCode,
 		BookingTimeInUtc:       dateFmt(searchRequest.BookingTime),
 		Origin:                 searchRequest.DepartureAirportCode,

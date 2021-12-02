@@ -149,8 +149,8 @@ func translateRequest(query *models.TfmSearchQuery) *models.SearchRequest {
 		AirlineCode:          "KL", //TODO limited to AF for the poc
 		DepartureAirportCode: query.Origin,
 		ArrivalAirportCode:   query.Destination,
-		DepartureDateTime:    convertDate(query.DepDate),
-		ArrivalDateTime:      time.Time{},
+		DepartureDateTime:    query.DepDate,
+		ArrivalDateTime:      "",
 		RoundTrip:            isRoundTripJourney(query.JourneyType),
 		BookingTime:          time.Now(), //TODO need to check and get it from the request
 	}
@@ -193,8 +193,8 @@ func splitRequestIntoUnits(ws *models.WideSearchQuery) []*models.SearchRequest {
 								AirlineCode:          airlineCode,
 								DepartureAirportCode: originAirportCode,
 								ArrivalAirportCode:   destinationAirportCode,
-								DepartureDateTime:    convertDate(departureDate),
-								ArrivalDateTime:      convertDate(arrivalDate),
+								DepartureDateTime:    departureDate,
+								ArrivalDateTime:      arrivalDate,
 								RoundTrip:            isRoundTripJourney(JourneyType),
 								BookingTime:          time.Now(),
 								Source:               source,
@@ -306,7 +306,7 @@ func performSearch(request *models.SearchRequest, p *properties.Properties) (*mo
 			searchResult = &models.SearchResult{
 				Result: *result,
 				AdditionalInfo: models.AdditionalInfo{
-					NeedToBeCached: true,
+					NeedToBeCached: false,
 				},
 			}
 		}
